@@ -1,0 +1,121 @@
+import tensorflow as tf
+import numpy as np
+
+class Corrente:
+    def __init__(self):
+        # Construção do modelo
+        self.model = tf.keras.Sequential([
+            tf.keras.layers.Dense(1, input_shape=(1,), activation='linear')
+        ])
+        
+        # Compilação do modelo
+        self.model.compile(optimizer='adam', loss='mean_squared_error')
+
+    def train(self, correnteAtual, correnteDesejada, epochs=2500):
+        # Treinamento do modelo
+        self.model.fit(correnteAtual, correnteDesejada, epochs=epochs, verbose=0)
+
+    def ajusteCorrente(self, correnteAtual):
+        # Predição do volume ajustado
+        correnteAjustada = self.model.predict(correnteAtual)
+        return correnteAjustada[0][0]
+
+class VolumeModel2:
+    def __init__(self):
+        # Construção do modelo
+        self.model = tf.keras.Sequential([
+            tf.keras.layers.Dense(1, input_shape=(1,), activation='linear')
+        ])
+        
+        # Compilação do modelo
+        self.model.compile(optimizer='adam', loss='mean_squared_error')
+
+    def train2(self, current_volume, user_preference, epochs=2500):
+        # Treinamento do modelo
+        self.model.fit(current_volume, user_preference, epochs=epochs, verbose=0)
+
+    def adjust_volume2(self, current_volume):
+        # Predição do volume ajustado
+        adjusted_volume2 = self.model.predict(current_volume)
+        return adjusted_volume2[0][0]
+
+class VolumeModel3:
+    def __init__(self):
+        # Construção do modelo
+        self.model = tf.keras.Sequential([
+            tf.keras.layers.Dense(1, input_shape=(1,), activation='linear')
+        ])
+        
+        # Compilação do modelo
+        self.model.compile(optimizer='adam', loss='mean_squared_error')
+
+    def train3(self, current_volume, user_preference, epochs=2500):
+        # Treinamento do modelo
+        self.model.fit(current_volume, user_preference, epochs=epochs, verbose=0)
+
+    def adjust_volume3(self, current_volume):
+        # Predição do volume ajustado
+        adjusted_volume3 = self.model.predict(current_volume)
+        return adjusted_volume3[0][0]
+
+# Função para coletar o valor do volume atual da música do usuário
+def definirCorrenteAtual():
+    corrente = float(input("Digite a corrente atual (entre 0 e 1): "))
+    return np.array([[corrente]])
+
+def get_volume_input2():
+    volume2 = float(input("Digite o volume atual da música 2 (entre 0 e 1): "))
+    return np.array([[volume2]])
+
+def get_volume_input3():
+    volume3 = float(input("Digite o volume atual da música 3 (entre 0 e 1): "))
+    return np.array([[volume3]])
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Dados de exemplo (volume atual e preferência de volume)
+    correnteAtual = np.array([[0.2], [0.4], [0.6], [0.8], [0.3], [0.5], [0.7], [0.9]])
+    correnteDesejada = np.array([[0.3], [0.5], [0.7], [0.9], [0.7], [0.6], [0.8], [1]])
+
+if __name__ == "__main__":
+    # Dados de exemplo (volume atual e preferência de volume)
+    current_volume2 = np.array([[0.2], [0.4], [0.6], [0.8], [0.3], [0.5], [0.7], [0.9]])
+    user_preference2 = np.array([[0.1], [0.2], [0.5], [0.6], [0.2], [0.1], [0.3], [0.4]])
+    
+if __name__ == "__main__":
+    # Dados de exemplo (volume atual e preferência de volume)
+    current_volume3 = np.array([[0.2], [0.4], [0.6], [0.8], [0.3], [0.5], [0.7], [0.9]])
+    user_preference3 = np.array([[0.1], [0.2], [0.5], [0.6], [0.2], [0.1], [0.3], [0.4]])
+
+    # Criando o modelo
+    model = Corrente()
+
+    # Treinando o modelo
+    model.train(correnteAtual, correnteDesejada)
+
+    # Criando o modelo
+    model2 = VolumeModel2()
+
+    # Treinando o modelo
+    model2.train2(current_volume2, user_preference2)
+    
+    model3 = VolumeModel3()
+
+    # Treinando o modelo
+    model3.train3(current_volume3, user_preference3)
+
+    # Permitindo ao usuário introduzir e recalcular o volume da música cinco vezes
+    for _ in range(8):
+        corrente_Atual = definirCorrenteAtual()
+        correnteAjustada = model.ajusteCorrente(corrente_Atual)
+        print("corrente ajustada :", correnteAjustada, "A")
+        
+        '''     
+        current_volume_input2 = get_volume_input2()
+        adjusted_volume2 = model2.adjust_volume2(current_volume_input2)
+        print("Volume ajustado da música 2:", adjusted_volume2)
+        
+        current_volume_input3 = get_volume_input3()
+        adjusted_volume3 = model3.adjust_volume3(current_volume_input3)
+        print("Volume ajustado da música 3:", adjusted_volume3)
+        '''

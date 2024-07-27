@@ -1,0 +1,43 @@
+import tensorflow as tf
+import numpy as np
+
+class VolumeModel:
+    def __init__(self):
+        # Construção do modelo
+        self.model = tf.keras.Sequential([
+            tf.keras.layers.Dense(1, input_shape=(1,), activation='linear')
+        ])
+        
+        # Compilação do modelo
+        self.model.compile(optimizer='adam', loss='mean_squared_error')
+
+    def train(self, current_volume, user_preference, epochs=10000):
+        # Treinamento do modelo
+        self.model.fit(current_volume, user_preference, epochs=epochs, verbose=0)
+
+    def adjust_volume(self, current_volume):
+        # Predição do volume ajustado
+        adjusted_volume = self.model.predict(current_volume)
+        return adjusted_volume[0][0]
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Dados de exemplo (volume atual e preferência de volume)
+    current_volume = np.array([[0.2], [0.3], [0.7], [0.9]])
+    user_preference = np.array([[0.3], [0.4], [0.8], [1]])
+
+    # Criando o modelo
+    model = VolumeModel()
+
+    # Treinando o modelo
+    model.train(current_volume, user_preference)
+
+    # Volume atual da música (input do usuário)
+    current_volume_input = float(input("Digite o volume atual da música (entre 0 e 1): "))
+    current_volume_input = np.array ([[current_volume_input]])
+
+    # Ajustando o volume da música com base na preferência do usuário
+    adjusted_volume = model.adjust_volume(current_volume_input)
+
+    # Exibindo o volume ajustado
+    print("Volume ajustado da música:", adjusted_volume)
